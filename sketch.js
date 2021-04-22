@@ -76,7 +76,7 @@ function setup() {
     }
   }
 
-  currentScreen = dungeon.screens[5][4];
+  currentScreen = dungeon.screens[0][0];
   var playerSpriteW = playerSS.width / 4;
   var playerSpriteH = playerSS.height / 8;
   var ISW = inkSS.width / 5;
