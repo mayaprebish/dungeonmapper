@@ -1,5 +1,5 @@
 # Dungeon Mapper
-#### A game about an explorer meticulously mapping out a dungeon.
+#### A game about an explorer meticulously mapping out a dungeon. [Play here!](https://mayaprebish.github.io/dungeonmapper)
 
 ### Dev Log
 April 10 2021:
