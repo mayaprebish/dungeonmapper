@@ -60,7 +60,6 @@ function setup() {
   createCanvas(1280, 768);
   textFont(merchant);
   textSize(32);
-  noCursor();
 
   dungeon = new Dungeon();
   for (var i = 0; i < MAPX; i++) {
@@ -128,7 +127,10 @@ function draw() {
   player.animate();
 
   if (mapOpen) {
+    noCursor();
     showMap();
+  } else {
+    cursor();
   }
 }
 
@@ -484,7 +486,7 @@ function showMap() {
   drawPen(penColor, 128);
 
   fill(0);
-  text(str((int)(penX - mapXPos)) + ", " + str((int)(penY - mapYPos)), mapXPos, mapYPos - 20);
+  text(str((int)((penX - mapXPos)/100)%8) + ", " + str((int)((penY - mapYPos)/50)%9), mapXPos, mapYPos - 20);
 }
 
 function editDoors() {
