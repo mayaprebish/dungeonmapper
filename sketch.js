@@ -42,7 +42,7 @@ function preload() {
   inkSS = loadImage('assets/Ink.png');
   quillSS = loadImage('assets/Quill.png')
   playerUp = playerDown = playerLeft = playerRight = false;
-  gameState = GameState.START;
+  gameState = GameState.INTRO;
   penColor = Color.BLACK;
   mapOpen = false;
   mapXPos = 215;
@@ -114,24 +114,34 @@ function setup() {
 }
 
 function draw() {
-  if (frameCount % 8 == 0) {
-    walkFrameCount++;
+  switch(gameState) {
+    case GameState.INTRO:
+      drawIntro();
+      break;
+    case GameState.START:
+      if (frameCount % 10 == 0) {
+        walkFrameCount++;
+      }
+      if (frameCount % 20 == 0) {
+        idleFrameCount++;
+      }
+    
+      currentScreen.drawBG();
+    
+      imageMode(CENTER);
+      player.animate();
+    
+      if (mapOpen) {
+        noCursor();
+        showMap();
+      } else {
+        cursor();
+      }
+      break;
+    case GameState.GAMEOVER:
+      break;
   }
-  if (frameCount % 14 == 0) {
-    idleFrameCount++;
-  }
-
-  currentScreen.drawBG();
-
-  imageMode(CENTER);
-  player.animate();
-
-  if (mapOpen) {
-    noCursor();
-    showMap();
-  } else {
-    cursor();
-  }
+  
 }
 
 // User input //
@@ -154,6 +164,10 @@ function mouseClicked() {
 function keyPressed() {
   switch (gameState) {
     case GameState.INTRO:
+      switch(key) {
+        case 'm':
+          gameState = GameState.START;
+      }
       break;
     case GameState.START:
       switch (key) {
@@ -400,6 +414,35 @@ class Map {
 
 // Helper functions //
 
+function drawIntro() {
+  let centerWidth = canvasWidth / 2;
+  currentScreen.drawBG();
+  fill(209, 192, 155);
+  rectMode(CENTER);
+  rect(centerWidth, canvasHeight / 2, 1200, 700);
+  textAlign(CENTER);
+  textSize(42);
+  fill(107, 102, 89);
+  text("DUNGEON MAPPER", centerWidth, 150);
+  textSize(24);
+  fill(171, 160, 132);
+  text("a game by maya prebish", centerWidth, 180);
+  textSize(54);
+  fill(107, 102, 89);
+  text("INSTRUCTIONS", centerWidth, 280);
+  textSize(32);
+  text("move with WASD", centerWidth, 330);
+  text("open your map with M", centerWidth, 360);
+  text("click on walls within the map to draw doors", centerWidth, 390);
+  textSize(54);
+  text("OBJECTIVE", centerWidth, 455);
+  textSize(32);
+  text("create an accurate map of the dungeon", centerWidth, 505);
+  textSize(40);
+  fill(171, 160, 132);
+  text("( press M to close )", centerWidth, 620);
+}
+
 function changePenColor() {
   var penXMin = mouseX - 35;
   var penXMax = mouseX - 15;
@@ -457,8 +500,12 @@ function showMap() {
   var penY = mouseY + 35;
   fill(209, 192, 155);
   rectMode(CENTER);
+  textAlign(LEFT);
   strokeWeight(1);
   rect(canvasWidth / 2, canvasHeight / 2, 1000, 600);
+
+  fill(0);
+  text(str((int)((penX - mapXPos)/100)%8) + ", " + str((int)((penY - mapYPos)/50)%9), mapXPos, mapYPos - 20);
 
   rectMode(CORNER);
   noFill();
@@ -485,8 +532,6 @@ function showMap() {
   drawInk(canvasWidth - 220, canvasHeight - 196, 68);
   drawPen(penColor, 128);
 
-  fill(0);
-  text(str((int)((penX - mapXPos)/100)%8) + ", " + str((int)((penY - mapYPos)/50)%9), mapXPos, mapYPos - 20);
 }
 
 function editDoors() {
