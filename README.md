@@ -20,6 +20,6 @@ April 20 2021:
 > Started the transition to p5.js, so I could host the game on my portfolio.
 
 April 22 2021:
-> Asked my friends to playtest. This went about as well as I could expect.
+> Asked my friends to playtest.
 ![Sus](assets/hey_maya_1.png)
 ![Loss](assets/hey_maya_2.png)
